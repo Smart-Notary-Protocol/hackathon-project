@@ -22,6 +22,7 @@ The conditions are defined through a module which is linked to the SMart-Notary 
 
 ## How It Works: Components
 Smart-Notary contract: coming soon
+
 Smart-Client contract: coming soon
 
   
