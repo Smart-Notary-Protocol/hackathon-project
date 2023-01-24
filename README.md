@@ -21,7 +21,8 @@ The goal of the Smart-Notary is to make the "clients" (organizations who want to
 The conditions are defined through a module which is linked to the SMart-Notary contract. Those conditions represent the rules defined by the community to allow new datacap allocations
 
 ## How It Works: Components
-coming soon
+Smart-Notary contract: coming soon
+Smart-Client contract: coming soon
 
   
 
