@@ -1,3 +1,4 @@
 # FVM-Smart-Notary
 
-coming soon
+A Smart-Notary to allow notaries to earn rewards onboarding verified clients to Filecoin network
+
