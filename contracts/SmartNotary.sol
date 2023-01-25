@@ -58,7 +58,7 @@ contract SmartNotary {
 
     function _proposeClient(address _client, address _notary) private {
         clientsToProposalNumber[_client] = 1;
-        clientsToNotaries[_client][0];
+        clientsToNotaries[_client][0] = _notary;
         _stake(_client);
     }
 
@@ -70,7 +70,7 @@ contract SmartNotary {
     ) private {
         clientsToProposalNumber[_client] = 0;
         acceptedClients[_client] = true;
-        clientsToNotaries[_client][1];
+        clientsToNotaries[_client][1] = _notary;
         _stake(_client);
         _createSmartClient(_client, _name, _fullDcAmount);
     }
@@ -89,7 +89,8 @@ contract SmartNotary {
             address(this),
             _name
         );
-        // grant datacap
+        // TODO grant datacap
+        _grantDataCap(address(smartClient),_fullDcAmount);
         emit NewSmartClientCreated(_clientOwner, _name, _fullDcAmount);
     }
 
@@ -101,11 +102,8 @@ contract SmartNotary {
         emit Staked(msg.sender, msg.value);
     }
 
-    
-
-    // grant datacap to SmartClients when they need it - can be called only from smart clients
-    function grantDataCap(address _client, uint256 _dataCap) public {
-        // require smart client is the caller
-        // TODO - checks rules and if conditions are met, grant datacap
+    // grant datacap to SmartClients when they need it 
+    function _grantDataCap(address _smartClient, BigInt memory _dataCap) internal {
+        // TODO implement
     }
 }
