@@ -1,27 +1,46 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.7.0 <0.9.0;
-import ".lib/filecoin-solidity-contracts/v0.8//cbor/BigIntCbor.sol";
-import ".lib/filecoin-solidity-contracts/v0.8/SmartClient.sol";
-
+import "./cbor/BigIntCbor.sol";
+import "./SmartClient.sol";
 
 /**
 FOR SIMPLICITY NOTARY WILL STAKE the same amount of FIL for each clients
+not1: 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+not2: 0x1C9E05B29134233e19fbd0FE27400F5FFFc3737e
+deployer: 0x921c7f9be1e157111bA023CBa7bC29e66B85A940
+client owner: 0x39806bDCBd704970000Bd6DB4874D6e98cf15123
 */
 contract SmartNotary {
+    address payable private owner;
     address[] public smartClients;
+    mapping(address => bool) public clientOwnerHasSmartClients;
     mapping(address => bool) public simpleNotaries;
     mapping(address => bool) public acceptedClients;
-    mapping(address => uint256) public clientsToProposalNumber; // maps number of proposal for each clients
-    mapping(address => uint256) public clientsToStake; // maps each client to its total value staked
-    mapping(address => address[]) public clientsToNotaries; // maps each client to the notaries staking on it
+    mapping(address => uint256) public notariesToStakes; //map each notary to the staked amount of fil
+
     uint256 public totalValueStaked;
+    //uint256 public stakingFee = 1000000000000000000; // 1 FIL
 
     event NewSmartClientCreated(
         address indexed _client,
         bytes _name,
         BigInt _fullDcAmount
     );
-    event Staked(address indexed notary, uint256 amount);
+    event Staked(address indexed notary, address indexed smartClient, uint256 nOfNotaries);
+
+    constructor() {
+        owner = payable(msg.sender);
+        simpleNotaries[0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266] = true; // just for teasting
+        simpleNotaries[0x1C9E05B29134233e19fbd0FE27400F5FFFc3737e] = true; // just for teasting
+    }
+
+    function getOwner() public view returns (address payable) {
+        return owner;
+    }
+
+    function getSmartClients() public view returns (address[] memory) {
+        return smartClients;
+    }
 
     // Adds a simple notary to this contract.
     // Simple notaries are people/organization who take responsibility over presented clients
@@ -34,78 +53,111 @@ contract SmartNotary {
         simpleNotaries[address(msg.sender)] = true;
     }
 
-    // let simple notaries present new clients
-    function presentCreateNewClient(
-        address _client,
-        bytes memory _name,
-        BigInt memory _fullDcAmount
-    ) public {
-        require(
-            !acceptedClients[_client],
-            "Smart Client is already registered"
-        );
-        require(
-            simpleNotaries[address(msg.sender)],
-            "Clients can be presented only by Notaries"
-        );
-
-        if (clientsToProposalNumber[_client] == 0) {
-            _proposeClient(_client, msg.sender); // add client to clientsToProposalNumber and stake
-        } else {
-            _acceptClient(_client, _name, _fullDcAmount, msg.sender); // remove client from clientsToProposalNumber, add it to acceptedClients, stake and create SmartClient
-        }
-    }
-
-    function _proposeClient(address _client, address _notary) private {
-        clientsToProposalNumber[_client] = 1;
-        clientsToNotaries[_client][0];
-        _stake(_client);
-    }
-
-    function _acceptClient(
-        address _client,
-        bytes memory _name,
-        BigInt memory _fullDcAmount,
-        address _notary
-    ) private {
-        clientsToProposalNumber[_client] = 0;
-        acceptedClients[_client] = true;
-        clientsToNotaries[_client][1];
-        _stake(_client);
-        _createSmartClient(_client, _name, _fullDcAmount);
-    }
-
-    function _createSmartClient(
+    // allows notaries to present new clients to the protocol
+    function createSmartClient(
         address _clientOwner,
         bytes memory _name,
         BigInt memory _fullDcAmount
-    ) private {
-        // create client
-        address[] memory notaries = clientsToNotaries[_clientOwner];
+    ) public payable {
+        require(msg.value >= 1, "required 1 wei");
+        require(simpleNotaries[address(msg.sender)], "Only Notaries");
+         require(
+        !clientOwnerHasSmartClients[_clientOwner],
+           "Client Already Proposed"
+        );
+
+        //create client
         SmartClient smartClient = new SmartClient(
-            notaries,
+            //notaries,
             _fullDcAmount,
             _clientOwner,
             address(this),
             _name
         );
-        // grant datacap
-        emit NewSmartClientCreated(_clientOwner, _name, _fullDcAmount);
-    }
+        smartClient.addNotary(payable(msg.sender));
+        smartClients.push(address(smartClient));
+        clientOwnerHasSmartClients[_clientOwner] = true;
 
-    // stake FIL on the client to reach 100 FIL -- Just for the Hackathon
-    function _stake(address _client) public payable {
-        require(msg.value > 0, "Stake amount is 0");
-        clientsToStake[_client] += msg.value;
+        // notary stake FIl -review
+        notariesToStakes[msg.sender] += msg.value;
         totalValueStaked += msg.value;
-        emit Staked(msg.sender, msg.value);
+        payable(address(this)).transfer(msg.value);
+
+
+
+        //add the client to this contract
+
+        emit Staked(msg.sender, address(smartClient), 1);
     }
 
-    
+    // allows notaries to stake on clients already proposed
+    function supportSmartCLient(address _smartClient) public payable {
+        require(msg.value >= 1, "required 1 wei");
+        require(simpleNotaries[address(msg.sender)], "Only Notaries");
+        require(
+            !acceptedClients[_smartClient],
+            "Smart Client is already accepted"
+        );
+        //TODO CHECK that the notary didnt staked on this
+        SmartClient smartClient = SmartClient(_smartClient);
+        bool  isNotaryAlreadyStaking  = smartClient.isNotaryStakingHere(msg.sender);
+        require(!isNotaryAlreadyStaking, "Notary already staked");
 
-    // grant datacap to SmartClients when they need it - can be called only from smart clients
-    function grantDataCap(address _client, uint256 _dataCap) public {
-        // require smart client is the caller
-        // TODO - checks rules and if conditions are met, grant datacap
+
+
+        smartClient.addNotary(payable(msg.sender));
+
+
+        notariesToStakes[msg.sender] += msg.value;
+        totalValueStaked += msg.value;
+        payable(address(this)).transfer(msg.value);
+
+        uint256 nOfNotaries = smartClient.getnotaries().length;
+        
+        emit Staked(msg.sender, _smartClient, nOfNotaries);
+    }
+
+    function grantFirstRoundDataCap(address _smartClient) public {
+        require(msg.sender == owner, "Only owner"); //owner of this contract
+        require(!acceptedClients[_smartClient], "Already granted"); //owner of this contract
+
+        //first make the client accepted
+        acceptedClients[_smartClient] = true;
+
+        // grantDatacap
+        SmartClient smartClient = SmartClient(address(_smartClient));
+        BigInt memory totDcRequested = smartClient.getTotalAllowanceRequested();
+        _grantDataCap(_smartClient, totDcRequested);
+    }
+
+    // grant datacap to SmartClients when they need it
+    function _grantDataCap(address _smartClient, BigInt memory _dataCap)
+        internal
+    {
+        // TODO implement
+    }
+
+    // this function grants datacap to client and pay fees to protocol and notaries
+    function refillDatacap(BigInt memory _dataCap) public {
+        require(acceptedClients[msg.sender], "Only Smart Client");
+        _grantDataCap(msg.sender, _dataCap);
+    }
+
+    //for now just check if the smart Client is accepted
+    function checkRefill() public view returns  (bool) {
+        bool isRefillable = acceptedClients[msg.sender];
+        //SmartClient smartClient = SmartClient(msg.sender);
+        // to implement later on --> if client follow the rule, set isDatacapClaimable to true
+        //smartClient.setDataCapPermission();
+        return isRefillable;
+    }
+
+    function withdrawAll() public {
+        string memory mess1 = "Only owner can withdraw tokens.";
+        require(msg.sender == owner, mess1);
+
+        address payable payableSender = payable(msg.sender);
+        uint256 amount = address(this).balance;
+        payableSender.transfer(amount);
     }
 }
