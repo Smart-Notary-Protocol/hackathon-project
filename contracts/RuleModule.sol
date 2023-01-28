@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
 
-import "./IRuleInterface.sol";
+import "./interfaces/IRuleInterface.sol";
 import "./Structs.sol";
 import "./RuleExample.sol";
 

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.7.0 <0.9.0;
 
-import "./IRuleInterface.sol";
+import "./interfaces/IRuleInterface.sol";
 import "./SmartNotary.sol";
 
 //example rule: the Smart Client should be accepted

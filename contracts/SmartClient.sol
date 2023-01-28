@@ -4,7 +4,7 @@ pragma solidity >=0.7.0 <0.9.0;
 import "./DataCapAPI.sol";
 import "./cbor/BigIntCbor.sol";
 import "./SmartNotary.sol";
-import "./Structs.sol";
+import "./structs/Structs.sol";
 
 contract SmartClient {
     //TODO review visibility
