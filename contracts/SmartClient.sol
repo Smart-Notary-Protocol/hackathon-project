@@ -4,6 +4,7 @@ pragma solidity >=0.7.0 <0.9.0;
 import "./DataCapAPI.sol";
 import "./cbor/BigIntCbor.sol";
 import "./SmartNotary.sol";
+import "./Structs.sol";
 
 contract SmartClient {
     //TODO review visibility
@@ -17,6 +18,7 @@ contract SmartClient {
     BigInt public dataCapThreshold; //should be 25/100
     // uint currentBalance; useless, can use balance from datacap actor/api
     uint256 private datacapFee = 1000000000000000000; // 10^18 wei 
+
 
     event RefillAsked(uint256 amount);
     event DealInitialized(uint256 amount);
@@ -71,8 +73,8 @@ contract SmartClient {
         SmartNotary sn = SmartNotary(address(smartNotary));
 
         //check if is claimable
-        bool check = sn.checkRefill();
-        require(check, "Datacap not claimable");
+        RuleResult memory check = sn.checkRefill();
+        require(check.respected, "Datacap not claimable");
 
         sn.refillDatacap(totalAllowanceRequested);
 
