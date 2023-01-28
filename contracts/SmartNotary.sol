@@ -2,6 +2,7 @@
 pragma solidity >=0.7.0 <0.9.0;
 import "./cbor/BigIntCbor.sol";
 import "./SmartClient.sol";
+import "./RuleModule.sol";
 
 /**
 FOR SIMPLICITY NOTARY WILL STAKE the same amount of FIL for each clients
@@ -17,6 +18,7 @@ contract SmartNotary {
     mapping(address => bool) public simpleNotaries;
     mapping(address => bool) public acceptedClients;
     mapping(address => uint256) public notariesToStakes; //map each notary to the staked amount of fil
+    address public ruleModule;
 
     uint256 public totalValueStaked;
     //uint256 public stakingFee = 1000000000000000000; // 1 FIL
@@ -32,6 +34,7 @@ contract SmartNotary {
         owner = payable(msg.sender);
         simpleNotaries[0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266] = true; // just for teasting
         simpleNotaries[0x1C9E05B29134233e19fbd0FE27400F5FFFc3737e] = true; // just for teasting
+        ruleModule = address(new RuleModule());
     }
 
     function getOwner() public view returns (address payable) {
@@ -40,6 +43,10 @@ contract SmartNotary {
 
     function getSmartClients() public view returns (address[] memory) {
         return smartClients;
+    }
+
+    function isSmartClientAccepted(address _smartClient) public view returns (bool){
+        return acceptedClients[_smartClient];
     }
 
     // Adds a simple notary to this contract.
@@ -144,12 +151,9 @@ contract SmartNotary {
     }
 
     //for now just check if the smart Client is accepted
-    function checkRefill() public view returns  (bool) {
-        bool isRefillable = acceptedClients[msg.sender];
-        //SmartClient smartClient = SmartClient(msg.sender);
-        // to implement later on --> if client follow the rule, set isDatacapClaimable to true
-        //smartClient.setDataCapPermission();
-        return isRefillable;
+    function checkRefill() public returns  (RuleResult memory) {
+        RuleModule rm = RuleModule(ruleModule);
+        return rm.checkAllRules(msg.sender);
     }
 
     function withdrawAll() public {
