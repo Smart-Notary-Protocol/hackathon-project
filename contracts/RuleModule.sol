@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "./interfaces/IRuleInterface.sol";
-import "./Structs.sol";
+import "./structs/Structs.sol";
 import "./RuleExample.sol";
 
 contract RuleModule {

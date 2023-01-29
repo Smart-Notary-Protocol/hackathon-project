@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.7.0 <0.9.0;
 
-import "./DataCapAPI.sol";
-import "./cbor/BigIntCbor.sol";
+import "./lib/filecoin-solidity/contracts/v0.8/DataCapAPI.sol";
+import "./lib/filecoin-solidity/contracts/v0.8/cbor/BigIntCbor.sol";
 import "./SmartNotary.sol";
 import "./structs/Structs.sol";
 
