@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.7.0 <0.9.0;
-import "./cbor/BigIntCbor.sol";
+import "./lib/filecoin-solidity/contracts/v0.8/cbor/BigIntCbor.sol";
 import "./SmartClient.sol";
 import "./RuleModule.sol";
 
