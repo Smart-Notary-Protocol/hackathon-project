@@ -7,6 +7,8 @@ import { styled, useTheme } from '@mui/material/styles'
 import { Web3Context } from 'src/@core/context/web3Context'
 import { useContext, useEffect, useState } from 'react'
 
+//this component should give some generic stat and then have a button "details" to see more in details what' happening
+
 // Styled component for the triangle shaped background image
 const TriangleImg = styled('img')({
   right: 0,
