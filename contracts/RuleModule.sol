@@ -6,25 +6,33 @@ import "./structs/Structs.sol";
 import "./RuleExample.sol";
 
 contract RuleModule {
- 
-
-    mapping(uint256 => Rule) public rules;
-    uint256 ruleCount;
+    mapping(uint256 => address) private rules;
+    uint256 private ruleCount;
     address public smartNotary;
 
-    constructor(){
-        smartNotary = msg.sender;
-        // create and add example rule
-        RuleExample re = new RuleExample("example rule");
-        addRule("example rule",address(re));
+    constructor(address _smartNotary) {
+        smartNotary = _smartNotary;
+        RuleExample re = new RuleExample(
+            "client needs to be accepted",
+            _smartNotary
+        );
+        addRule(address(re));
     }
 
-    function addRule(string memory name, address ref) public {
-        require(msg.sender == smartNotary, "Only Smart Notary");
-        rules[ruleCount + 1] = Rule(name, ref);
-        ruleCount += 1;
+    function getAllRules() public view returns (address[] memory) {
+        address[] memory list;
+        for (uint256 i = 0; i < ruleCount; i++) {
+            list[i] = rules[i];
+        }
+        return list;
     }
-    
+
+    function addRule(address _ruleAddress) public {
+        require(msg.sender == smartNotary, "Only Smart Notary");
+        ruleCount += 1;
+        rules[ruleCount - 1] = _ruleAddress;
+    }
+
     function _checkRule(IRuleInterface rule, address _smartClient)
         private
         returns (RuleResult memory)
@@ -32,15 +40,21 @@ contract RuleModule {
         return rule.checkRule(_smartClient);
     }
 
-    function checkAllRules(address _smartClient) public returns (RuleResult memory results){
+    function checkAllRules(address _smartClient)
+        public
+        returns (RuleResult memory results)
+    {
         for (uint256 i = 0; i < ruleCount; i++) {
-            IRuleInterface rule = IRuleInterface(rules[i].ref);
-            RuleResult memory result = _checkRule(rule,_smartClient);
-            if (!result.respected){
+            IRuleInterface rule = IRuleInterface(rules[i]);
+            RuleResult memory result = _checkRule(rule, _smartClient);
+            if (!result.respected) {
                 return result;
             }
         }
-        RuleResult memory okResult = RuleResult({respected:true,reason:"all good"});
+        RuleResult memory okResult = RuleResult({
+            respected: true,
+            reason: "all good"
+        });
         return okResult;
     }
 }

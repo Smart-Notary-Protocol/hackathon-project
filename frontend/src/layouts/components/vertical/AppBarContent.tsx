@@ -54,7 +54,7 @@ const AppBarContent = (props: Props) => {
             target='_blank'
             rel='noreferrer'
             sx={{ mr: 4, display: 'flex' }}
-            href='https://github.com/ialberquilla/chainlink-technical-indicators'
+            href='https://github.com/fabriziogianni7/FVM-Smart-Notary'
           >
             <img
               height={24}
@@ -66,7 +66,7 @@ const AppBarContent = (props: Props) => {
         <ModeToggler settings={settings} saveSettings={saveSettings} />
        <Button size='small' variant='contained' onClick={web3.connectAccount}> 
        {
-        web3.account ?  web3.account  : "Connect Wallet"
+        web3.account && web3.account !== "undefined" ?  web3.account  : "Connect Wallet"
        }
        </Button>
       </Box>

@@ -40,22 +40,23 @@ const Table = (theme: Theme) => {
     MuiTableRow: {
       styleOverrides: {
         root: {
+          
           '& .MuiTableCell-head:first-child, & .MuiTableCell-root:first-child ': {
             paddingLeft: theme.spacing(5)
           },
           '& .MuiTableCell-head:last-child, & .MuiTableCell-root:last-child': {
             paddingRight: theme.spacing(5)
-          }
+          },
         }
       }
     },
     MuiTableCell: {
       styleOverrides: {
         root: {
+         
           borderBottom: `1px solid ${theme.palette.divider}`,
           '& .MuiButton-root': {
             textTransform: 'uppercase',
-            color: theme.palette.text.secondary
           }
         },
         stickyHeader: {

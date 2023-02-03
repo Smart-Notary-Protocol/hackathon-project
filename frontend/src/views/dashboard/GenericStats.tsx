@@ -25,17 +25,25 @@ const TrophyImg = styled('img')({
   position: 'absolute'
 })
 
-const Nstrategies = () => {
+type GenericStatsComponentProps = {
+  title: string
+  statText: string
+  method: () => any
+}
+
+const GenericStats = (props: GenericStatsComponentProps) => {
   // ** Hook
   const theme = useTheme()
   const web3 = useContext(Web3Context)
 
-  const [nOfStrats, setNofStrats] = useState<number>()
+  const [stats, setStats] = useState<any>()
 
+  const retrieve = async () => {
+    return await props.method()
+  }
   useEffect(async () => {
-    const strats = await web3.getStrategies()
-  setNofStrats(strats.length)
-   
+    const stat = await retrieve()
+    setStats(stat)
   }, [])
 
 
@@ -45,15 +53,15 @@ const Nstrategies = () => {
   return (
     <Card sx={{ position: 'relative' }}>
       <CardContent>
-        <Typography variant='h6'>Clients</Typography>
+        <Typography variant='h6'>{props.title}</Typography>
         <Typography variant='body2' sx={{ letterSpacing: '0.25px' }}>
-          Number of Notaries accepted
+          {props.statText}
         </Typography>
         <Typography variant='h5' sx={{ my: 4, color: 'primary.main' }}>
-          {nOfStrats}
+          {stats}
         </Typography>
         <Button size='small' variant='contained' disabled>
-          View Details
+          View details
         </Button>
         <TriangleImg alt='triangle background' src={`/images/misc/${imageSrc}`} />
       </CardContent>
@@ -61,4 +69,4 @@ const Nstrategies = () => {
   )
 }
 
-export default Nstrategies
+export default GenericStats

@@ -12,6 +12,7 @@ import GoogleCirclesExtended from 'mdi-material-ui/GoogleCirclesExtended'
 
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
+import themeConfig from 'src/configs/themeConfig'
 
 const navigation = (): VerticalNavItemsType => {
   return [
@@ -21,7 +22,19 @@ const navigation = (): VerticalNavItemsType => {
     {
       title: 'Dashboard',
       icon: HomeOutline,
-      path: '/'
+      path: '/',
+    },
+    {
+      title: 'Huddle01',
+      icon: CubeOutline,
+      path: '/',
+
+    },
+    {
+      title: 'LightHouse',
+      icon: GoogleCirclesExtended,
+      path: '/',
+
     },
     // {
     //   title: 'Withepaper',

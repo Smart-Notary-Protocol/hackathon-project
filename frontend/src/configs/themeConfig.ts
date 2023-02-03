@@ -17,8 +17,8 @@ type ThemeConfig = {
 
 const themeConfig: ThemeConfig = {
   // ** Layout Configs
-  templateName: ' ' /* App Name */,
-  mode: 'light' /* light | dark */,
+  templateName: 'smart notary protocol' /* App Name */,
+  mode: 'dark' /* light | dark */,
   contentWidth: 'boxed' /* full | boxed */,
 
   // ** Routing Configs

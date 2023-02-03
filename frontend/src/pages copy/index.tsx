@@ -11,8 +11,6 @@ import AllPurposeTable from 'src/views/tables/AllPurposeTable'
 import { Card, CardHeader } from '@mui/material'
 import { useContext, useEffect, useState } from 'react'
 import { Web3Context } from 'src/@core/context/web3Context'
-import { clientColumns } from 'src/constants/consts'
-
 
 const Dashboard = () => {
   const { smartNotaryContract, fetchClients } = useContext(Web3Context)
@@ -35,9 +33,12 @@ const Dashboard = () => {
         })}
       </Grid>
       <Card sx={{ marginTop: "30px" }}>
+
         <CardHeader title='All Clients' titleTypographyProps={{ variant: 'h6' }} />
+
         <AllPurposeTable
-          elements={clients ? clients : []}  method={() => { }} columns={clientColumns}/>
+          elements={clients ? clients : []}  method={() => { }} />
+
       </Card>
     </ApexChartWrapper>
   )
