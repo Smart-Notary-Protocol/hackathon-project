@@ -15,13 +15,13 @@ import { useContext, useEffect, useState } from 'react'
 import { Web3Context } from 'src/@core/context/web3Context'
 import { FormControl, FormLabel, InputLabel, MenuItem, Select, StepLabel } from '@mui/material'
 import { ethers } from 'ethers'
-import { clientColumns } from 'src/constants/consts'
+import { clientColumns, textsSupportClient } from 'src/constants/consts'
+import TextPanel from 'src/@core/components/text-panel/textPanel'
 
 const FormLayoutsIconsSupportClient = () => {
-  const { account, smartNotaryContract, isNotaryAdded, fetchClients } = useContext(Web3Context)
+  const { smartNotaryContract, fetchClients, setTransactionAlert, setTransactionErrorAlert } = useContext(Web3Context)
   const [clients, setClients] = useState<any[]>()
   const [address, setAddress] = useState<string>("")
-  // const [dataCap, setDataCap] = useState<string>("")
 
   useEffect(() => {
     getClients()
@@ -42,10 +42,12 @@ const FormLayoutsIconsSupportClient = () => {
   // const createClient = async (): Promise<any> => {
   const supportClient = async (): Promise<any> => {
     try {
-      const options = { value: ethers.utils.parseEther("1.0") }
+      const options = { value: ethers.utils.parseEther("0.1") }
       const transaction = await smartNotaryContract.supportSmartCLient(address, options)
+      setTransactionAlert(true)
       return transaction
     } catch (error) {
+      setTransactionErrorAlert(true)
       console.log(error)
     }
 
@@ -55,11 +57,14 @@ const FormLayoutsIconsSupportClient = () => {
   return (
 
     <Card>
-      <CardHeader title='Supoort Client' titleTypographyProps={{ variant: 'h6' }} />
+      <CardHeader title='Support Client' titleTypographyProps={{ variant: 'h6' }} />
+      <CardContent>
+        <TextPanel title="Info" texts={textsSupportClient} />
+      </CardContent>
       <CardContent>
         <Card>
           <CardHeader title='Available Clients' titleTypographyProps={{ variant: 'h6' }} />
-          <AllPurposeTable elements={clients ? clients : []} method={selectClient} columns={clientColumns}/>
+          <AllPurposeTable elements={clients ? clients : []} method={selectClient} columns={clientColumns} />
         </Card>
         <form onSubmit={e => e.preventDefault()}>
           <Grid container spacing={5}>

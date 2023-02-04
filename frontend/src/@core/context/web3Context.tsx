@@ -1,10 +1,13 @@
 
 import { createContext, useState, ReactNode, useMemo, useEffect } from 'react'
 import { ethers } from "ethers";
-import smartNotaryAbi from "../../contracts/SmartNotary.json"
+import smartNotaryAbi from "../../contracts/SmartNotaryAbi.json"
 import smartClientAbi from "../../contracts/SmartClient.json"
 import { SMART_NOTARY_ADDRESS } from 'src/constants/consts';
 import { hexToString } from '../utils/encoding-utils';
+import Alert from '@mui/material/Alert'
+import IconButton from '@mui/material/IconButton'
+import { Collapse } from '@mui/material';
 
 
 
@@ -18,7 +21,7 @@ export const Web3Context = createContext<any>({
   smartNotaryContract: {},
   isNotaryAdded: false,
   provider: {},
-  fetchClients: ()=> []
+  fetchClients: () => []
 })
 
 
@@ -30,7 +33,8 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
   const [signer, setSigner] = useState<any>("")
   const [smartNotaryContract, setSmartNotaryContract] = useState<any>()
   const [isNotaryAdded, setIsNotaryAdded] = useState<any>()
-
+  const [transactionAlert, setTransactionAlert] = useState<boolean>(false)
+  const [transactionErrorAlert, setTransactionErrorAlert] = useState<boolean>(false)
 
   useEffect(() => {
     let acc = localStorage.getItem('account') ? localStorage.getItem('account') : ""
@@ -45,6 +49,7 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
       initProvider()
       isNotaryInProtocol()
     }
+    smartNotaryEvents()
 
   }, [account])
 
@@ -70,7 +75,7 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
   const getSmartNotary = async (provider: any, signer: any) => {
     const address = SMART_NOTARY_ADDRESS
     const providerOrSigner = signer ? signer : provider
-    const contract = new ethers.Contract(address, smartNotaryAbi.abi, providerOrSigner)
+    const contract = new ethers.Contract(address, smartNotaryAbi, providerOrSigner)
     // console.log("contract", contract)
     setSmartNotaryContract(contract);
 
@@ -92,10 +97,17 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
       }
 
     } catch (error) {
+      //TODO bring this to life
       console.log("Notary not in the protocol")
     }
   }
 
+
+  const isClientAccepted = async (address: string) => {
+    const isIt = await smartNotaryContract.acceptedClients(address)
+
+    return isIt
+  }
 
   const fetchClients = async () => {
     if (smartNotaryContract) {
@@ -105,6 +117,7 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
       const clients = (await Promise.allSettled(
         clientAddresses.map((client: any) => new Promise(async (resolve, reject) => {
           try {
+            const isAccepted = await isClientAccepted(client)
             const cl = new ethers.Contract(client, abi, provider)
             const hexName = await cl.name()
             const name = hexToString(hexName)
@@ -112,9 +125,8 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
             const hexDataCap = (await cl.getTotalAllowanceRequested()).val
             const dataCap = `${hexToString(hexDataCap)}TiB`
 
-            console.log("dataCap", hexDataCap)
 
-            resolve({ name, address, dataCap, stake: "1 TFIL" })
+           resolve({ name, address, dataCap, stake: "1 TFIL",status:isAccepted? 'accepted':'pending'})
           } catch (error) {
             reject(error)
           }
@@ -122,14 +134,26 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
       )).map((p: any) => p.value)
       console.log(clients)
       return clients
-      // setClients(clients)
+    }
+  }
+
+  const smartNotaryEvents = () => {
+    if (smartNotaryContract) {
+      console.log("should be initialized")
+      smartNotaryContract.on("NotaryAdded", (eve: any) => {
+        if (eve === account) {
+          console.log("NotaryAdded event emitted", eve)
+          setTransactionAlert(false)
+        }
+      })
     }
   }
 
 
 
 
-  return <Web3Context.Provider value={{ connectAccount, account, smartNotaryContract, isNotaryAdded, provider, fetchClients }}>{children}</Web3Context.Provider>
+
+  return <Web3Context.Provider value={{ connectAccount, account, smartNotaryContract, isNotaryAdded, provider, fetchClients, transactionAlert, setTransactionAlert, transactionErrorAlert, setTransactionErrorAlert }}>{children}</Web3Context.Provider>
 }
 
 export const Web3Consumer = Web3Context.Consumer

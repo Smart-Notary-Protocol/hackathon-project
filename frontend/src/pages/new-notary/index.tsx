@@ -9,7 +9,13 @@ import FormLayoutsIconsNotary from 'src/views/form-layouts/FormLayoutsIconsNotar
 
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
+import { Collapse, Alert, IconButton } from '@mui/material'
+import AlertComponent from 'src/@core/components/alert/alertComponent'
+import { useContext } from 'react'
+import { Web3Context } from 'src/@core/context/web3Context'
 const NewNotary = () => {
+  const { transactionErrorAlert, transactionAlert } = useContext(Web3Context)
+
   return (
     <DatePickerWrapper>
       <Grid container spacing={6}>
@@ -17,6 +23,11 @@ const NewNotary = () => {
           <FormLayoutsIconsNotary />
         </Grid>
       </Grid>
+      {
+        transactionErrorAlert && <AlertComponent type="Looks Like the notary is already accepted into the protocol." severity="warning" />}
+      {
+        transactionAlert && <AlertComponent type="Wait for the transaction before notary is accepted" severity="info" />
+      }
     </DatePickerWrapper>
   )
 }

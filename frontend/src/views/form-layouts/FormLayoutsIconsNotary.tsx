@@ -14,23 +14,33 @@ import AccountOutline from 'mdi-material-ui/AccountOutline'
 import MessageOutline from 'mdi-material-ui/MessageOutline'
 import { useContext, useEffect } from 'react'
 import { Web3Context } from 'src/@core/context/web3Context'
-import { FormLabel, StepLabel } from '@mui/material'
+import { Alert, Collapse, FormLabel, IconButton, StepLabel } from '@mui/material'
+import TextPanel from 'src/@core/components/text-panel/textPanel'
+import { textsNewNotary } from 'src/constants/consts'
 
 const FormLayoutsIconsNotary = () => {
-  const { account, smartNotaryContract, isNotaryAdded } = useContext(Web3Context)
+  const { account, smartNotaryContract, isNotaryAdded, setTransactionAlert, setTransactionErrorAlert } = useContext(Web3Context)
   const addNotary = async (): Promise<any> => {
-                  try {
-                    const tx = await smartNotaryContract.addSimpleNotary();
-                    console.log(tx)
-                    return tx
-                  } catch (error) {
-                    console.log(error)
-                  }
+    try {
+      const tx = await smartNotaryContract.addSimpleNotary();
 
-                }
+      setTransactionAlert(true)
+      console.log("transaction:", tx)
+      return tx
+    } catch (error) {
+      setTransactionErrorAlert(true)
+      console.log(error)
+    }
+
+  }
+
+
   return (
     <Card>
       <CardHeader title='Notary Info' titleTypographyProps={{ variant: 'h6' }} />
+      <CardContent>
+        <TextPanel texts={textsNewNotary} title={"Info"} />
+      </CardContent>
       <CardContent>
         <form onSubmit={e => e.preventDefault()}>
           <Grid container spacing={5}>
@@ -99,10 +109,7 @@ const FormLayoutsIconsNotary = () => {
             <Grid item xs={12}>
               {/* {true ? */}
               {isNotaryAdded ?
-                <Button type='submit' variant='contained' size='large' onClick={async () => {
-                  const owner = smartNotaryContract.simpleNotaries(account)
-                  alert(owner)
-                }} >
+                <Button type='submit' variant='contained' size='large' >
                   You're a notary already!
                 </Button>
                 :

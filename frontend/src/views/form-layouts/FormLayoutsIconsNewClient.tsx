@@ -1,6 +1,6 @@
 // ** MUI Imports
 import Card from '@mui/material/Card'
-import Grid from '@mui/material/Grid'
+import Grid, { GridProps } from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import CardHeader from '@mui/material/CardHeader'
@@ -12,11 +12,22 @@ import SignatureFreehand from 'mdi-material-ui/SignatureFreehand'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 import { useContext, useEffect, useState } from 'react'
 import { Web3Context } from 'src/@core/context/web3Context'
-import { FormControl, FormLabel, InputLabel, MenuItem, Select, StepLabel } from '@mui/material'
+import { FormControl, FormLabel, InputLabel, MenuItem, Select, StepLabel, styled, Typography } from '@mui/material'
 import { ethers } from 'ethers'
+import Router from 'next/router'
+import TextPanel from 'src/@core/components/text-panel/textPanel'
+import { textsNewClient } from 'src/constants/consts'
+
+
+const DemoGrid = styled(Grid)<GridProps>(({ theme }) => ({
+  [theme.breakpoints.down('sm')]: {
+    paddingTop: `${theme.spacing(1)} !important`
+  }
+}))
+
 
 const FormLayoutsIconsNewClient = () => {
-  const { account, smartNotaryContract, isNotaryAdded } = useContext(Web3Context)
+  const {smartNotaryContract, setTransactionAlert, setTransactionErrorAlert} = useContext(Web3Context)
   const [address, setAddress] = useState<string>("")
   const [name, setName] = useState<string>("")
   const [dataCap, setDataCap] = useState<string>("")
@@ -27,39 +38,42 @@ const FormLayoutsIconsNewClient = () => {
 
   ): Promise<any> => {
     try {
-      const n = encodeName(name)
       const d = encodeTuple(dataCap)
-      const options = { value: ethers.utils.parseEther("1.0") }
-      const transaction = await smartNotaryContract.createSmartClient(address, n, d, options)
+      const options = { value: ethers.utils.parseEther("0.1") }
+      const transaction = await smartNotaryContract.createSmartClient(address, name, d, options)
+      // const transaction = await smartNotaryContract.emitTestEvent()
+      console.log("transaction:", transaction)
+      setTransactionAlert(true)
       return transaction
 
     } catch (error) {
+      setTransactionErrorAlert(true)
       console.log(error)
     }
 
   }
 
   const encodeTuple = (input: string) => {
-    const repl = input.replace(/[aA-zZ]/g,"")
+    const repl = input.replace(/[aA-zZ]/g, "")
     const encoded = stringToBytes(repl)
     return [encoded, false]
     // console.log("encodeTuple", encoded)
-  }
-  const encodeName = (input: string) => {
-    const encoded = stringToBytes(input)
-    const toStr = `0x${encoded.join().replace(/,/g,"",)}`
-    return toStr
   }
 
   const stringToBytes = (input: string) => {
     const encoder = new TextEncoder()
     return encoder.encode(input)
-     
+
   }
+
+
 
   return (
     <Card>
-      <CardHeader title='Client Info' titleTypographyProps={{ variant: 'h6' }} />
+      <CardHeader title='Present New Client' titleTypographyProps={{ variant: 'h6' }} />
+      <CardContent>
+        <TextPanel title='Info' texts={textsNewClient}/> 
+      </CardContent>
       <CardContent>
         <form onSubmit={e => e.preventDefault()}>
           <Grid container spacing={5}>
@@ -97,11 +111,11 @@ const FormLayoutsIconsNewClient = () => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth
-                
+
               >
                 <InputLabel>DataCap Requested</InputLabel>
-                <Select label='DataCap Requesed' 
-                onChange={(e: any) => setDataCap(e.target.value)}>
+                <Select label='DataCap Requesed'
+                  onChange={(e: any) => setDataCap(e.target.value)}>
                   <MenuItem value='100TiB'>100TiB</MenuItem>
                   <MenuItem value='250TiB'>250TiB</MenuItem>
                   <MenuItem value='500TiB'>500TiB</MenuItem>

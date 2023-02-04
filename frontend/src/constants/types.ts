@@ -7,22 +7,29 @@ export type ClicableBoxProps = {
 
 export type AllPurposeTableProps = {
   elements: any[]
-  method: (address:string) => string | void
+  method: (address: string) => string | void
   columns?: any
-  rowType?:any
+  rowType?: any
+  accepted?:boolean
 }
 
 export interface ColumnType {
-  id: 'name' | 'address' | 'dataCap' | 'stake' | 'explaination'
+  id: 'name' | 'address' | 'dataCap' | 'stake' | 'explaination' | 'status'
   label: string
   minWidth?: number
   align?: 'left' | 'right'
   format?: (value: number) => string
 }
 
-interface RowData {
-  name: string
-  address: string
-  dataCap: string
-  stake: string
+export type TextPanelProps = {
+  title: string
+  texts: string[]
+  route?: string
+  indexRoute?: number 
+}
+ 
+
+export type AlertProps = {
+  type:string
+  severity: 'error' | 'warning' | 'info' | 'success'
 }

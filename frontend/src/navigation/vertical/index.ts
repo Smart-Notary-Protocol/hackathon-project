@@ -1,14 +1,5 @@
 // ** Icon imports
-import Login from 'mdi-material-ui/Login'
-import Table from 'mdi-material-ui/Table'
-import CubeOutline from 'mdi-material-ui/CubeOutline'
-import HomeOutline from 'mdi-material-ui/HomeOutline'
-import FormatLetterCase from 'mdi-material-ui/FormatLetterCase'
-import AccountCogOutline from 'mdi-material-ui/AccountCogOutline'
-import CreditCardOutline from 'mdi-material-ui/CreditCardOutline'
-import AccountPlusOutline from 'mdi-material-ui/AccountPlusOutline'
-import AlertCircleOutline from 'mdi-material-ui/AlertCircleOutline'
-import GoogleCirclesExtended from 'mdi-material-ui/GoogleCirclesExtended'
+import { HomeOutline,CubeOutline, AccountPlusOutline,GoogleCirclesExtended,HandPointingLeft , Connection, CheckCircle, Database, Ruler} from 'mdi-material-ui'
 
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
@@ -17,30 +8,67 @@ import themeConfig from 'src/configs/themeConfig'
 const navigation = (): VerticalNavItemsType => {
   return [
     {
-      sectionTitle: 'General'
+      sectionTitle: 'Dashboard'
     },
     {
-      title: 'Dashboard',
+      title: 'Home',
       icon: HomeOutline,
       path: '/',
     },
     {
+      title: 'Become a notary',
+      icon: AccountPlusOutline,
+      path: '/new-notary',
+    },
+    {
+      title: 'Present New Client',
+      icon: HandPointingLeft,
+      path: '/new-client',
+    },
+    {
+      title: 'Support Client',
+      icon: Connection,
+      path: '/support-client',
+    },
+    {
+      title: 'Accept Client',
+      icon: CheckCircle,
+      path: '/accept-client',
+    },
+     {
+      title: 'Request DataCap',
+      icon: Database,
+      path: '/request-dataCap',
+    },
+     {
+      title: 'Community Rules',
+      icon: Ruler,
+      path: '/rules',
+    },
+    {
+      sectionTitle: 'Space Warp Sponsors'
+    },
+    {
       title: 'Huddle01',
       icon: CubeOutline,
-      path: '/',
+      path: '/huddle01',
 
     },
     {
       title: 'LightHouse',
       icon: GoogleCirclesExtended,
-      path: '/',
-
+      path: '/lighthouse',
     },
-    // {
-    //   title: 'Withepaper',
-    //   icon: AccountCogOutline,
-    //   path: '/withepaper'
-    // },
+    {
+      title: 'Push Protocol',
+      icon: GoogleCirclesExtended,
+      path: '/push',
+    },
+     {
+      title: 'Spheron',
+      icon: GoogleCirclesExtended,
+      path: '/spheron',
+    }
   ]
 }
 

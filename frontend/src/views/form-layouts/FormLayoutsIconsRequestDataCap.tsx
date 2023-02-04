@@ -17,27 +17,9 @@ import { FormControl, FormLabel, InputLabel, MenuItem, Select, StepLabel } from 
 import { ethers } from 'ethers'
 
 const FormLayoutsIconsRequestDataCap = () => {
-  const { account, smartNotaryContract, isNotaryAdded, provider } = useContext(Web3Context)
-  const [clients, setClients] = useState<any[]>()
+  const { setTransactionAlert, setTransactionErrorAlert, provider } = useContext(Web3Context)
   const [address, setAddress] = useState<string>("")
 
-  useEffect(() => {
-  }, [smartNotaryContract])
-
-  const hexToString = (hex: any) => {
-    const bytes = [];
-    for (let i = 0; i < hex.length; i += 2) {
-      bytes.push(parseInt(hex.substr(i, 2), 16));
-    }
-    const decoder = new TextDecoder();
-    return decoder.decode(new Uint8Array(bytes));
-  };
-
-
-  const selectClient = (address: string) => {
-    console.log("the address from tab", address)
-    setAddress(address)
-  }
 
   // const createClient = async (): Promise<any> => {
   const requestMoreDatacap = async (): Promise<any> => {
@@ -46,21 +28,21 @@ const FormLayoutsIconsRequestDataCap = () => {
       const abi = smartClientAbi.abi
       const options = { value: ethers.utils.parseEther("1.0") }
       const signer = provider.getSigner()
-      console.log("signer", signer)
       const smartClientContract = new ethers.Contract(address, abi, signer)
       const transaction = await smartClientContract.claimDataCap(options)
+      setTransactionAlert(true)
       return transaction
     } catch (error) {
+      setTransactionErrorAlert(true)
       console.log(error)
     }
-
   }
 
 
   return (
 
     <Card>
-      <CardHeader title='Select Client' titleTypographyProps={{ variant: 'h6' }} />
+      <CardHeader title='Smart Client' titleTypographyProps={{ variant: 'h6' }} />
       <CardContent>
         <form onSubmit={e => e.preventDefault()}>
           <Grid container spacing={5}>
@@ -70,7 +52,7 @@ const FormLayoutsIconsRequestDataCap = () => {
                 // value={account && account !== "undefined" ? account : ""}
                 value={address}
                 label='Filecoin address (starting with 0x...)'
-                placeholder='Address of the client'
+                placeholder='Address of the Smart Client contract'
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>

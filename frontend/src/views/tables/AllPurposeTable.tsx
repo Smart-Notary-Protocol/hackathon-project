@@ -11,8 +11,6 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import { AllPurposeTableProps } from 'src/constants/types'
-import { ethers } from 'ethers'
-// import { clientColumns } from 'src/constants/consts'
 
 
 const TableStickyHeaderSupportClient = (props?: AllPurposeTableProps) => {
@@ -50,7 +48,7 @@ const TableStickyHeaderSupportClient = (props?: AllPurposeTableProps) => {
                   onClick={() => {props.method(row.address) } }
                 >
                   {props.columns.map((column:any) => {
-                    const value = row[column.id]
+                    const value =  row[column.id]
 
                     return (
                       <TableCell key={column.id} align={column.align}>

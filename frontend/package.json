@@ -66,6 +66,7 @@
     "react-popper": "^2.2.5"
   },
   "devDependencies": {
+    "@iconify/react": "^4.1.0",
     "@types/node": "16.11.11",
     "@types/nprogress": "^0.2.0",
     "@types/react": "17.0.37",
