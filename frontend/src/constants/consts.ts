@@ -83,6 +83,13 @@ export const clientColumns: readonly ColumnType[] = [
     minWidth: 170,
     align: 'left',
     format: (value: number) => value.toFixed(2)
+  },
+  {
+    id: 'nNotaries',
+    label: '# Supporting Notaries',
+    minWidth: 170,
+    align: 'left',
+    format: (value: number) => value.toFixed(0)
   }
 ]
 

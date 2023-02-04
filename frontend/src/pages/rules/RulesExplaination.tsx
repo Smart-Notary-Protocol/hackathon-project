@@ -61,7 +61,7 @@ const RulesExplaination = () => {
       </CardContent>
       <CardContent>
         <Card sx={{ marginTop: '30px' }}>
-          <CardHeader title='All Clients' titleTypographyProps={{ variant: 'h6' }} />
+          <CardHeader title='All Rules' titleTypographyProps={{ variant: 'h6' }} />
           <AllPurposeTable elements={rules ? rules : []} method={() => {}} columns={rulesColumns} />
         </Card>
       </CardContent>

@@ -1,14 +1,15 @@
 // ** Icon imports
 import {
   HomeOutline,
-  CubeOutline,
+  Bell,
   AccountPlusOutline,
   GoogleCirclesExtended,
   HandPointingLeft,
   Connection,
   CheckCircle,
   Database,
-  Ruler
+  Ruler,
+  BookAlert
 } from 'mdi-material-ui'
 
 // ** Type import
@@ -58,25 +59,23 @@ const navigation = (): VerticalNavItemsType => {
       sectionTitle: 'Space Warp Sponsors'
     },
     {
-      title: 'Huddle01',
-      icon: CubeOutline,
-      path: '/huddle01'
-    },
-    {
-      title: 'LightHouse',
-      icon: GoogleCirclesExtended,
-      path: '/lighthouse'
-    },
-    {
       title: 'Push Protocol',
-      icon: GoogleCirclesExtended,
+      icon: Bell,
       path: '/push'
     },
     {
       title: 'Spheron',
       icon: GoogleCirclesExtended,
       path: '/spheron'
-    }
+    },  
+    {
+      sectionTitle: 'Project Info'
+    },
+    {
+      title: 'README',
+      icon: BookAlert,
+      path: '/readme'
+    },
   ]
 }
 

@@ -110,8 +110,10 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
                   const address = cl.address
                   const hexDataCap = (await cl.getTotalAllowanceRequested()).val
                   const dataCap = `${hexToString(hexDataCap)}TiB`
+                  const notaries = await cl.getnotaries()
+                  console.log("notaries",notaries)
 
-                  resolve({ name, address, dataCap, stake: '1 TFIL', status: isAccepted ? 'accepted' : 'pending' })
+                  resolve({ name, address, dataCap, stake: '1 TFIL', status: isAccepted ? 'accepted' : 'pending', nNotaries:notaries.length })
                 } catch (error) {
                   reject(error)
                 }

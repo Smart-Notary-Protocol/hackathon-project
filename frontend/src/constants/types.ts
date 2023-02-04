@@ -14,7 +14,7 @@ export type AllPurposeTableProps = {
 }
 
 export interface ColumnType {
-  id: 'name' | 'address' | 'dataCap' | 'stake' | 'explaination' | 'status'
+  id: 'name' | 'address' | 'dataCap' | 'stake' | 'explaination' | 'status' | 'nNotaries'
   label: string
   minWidth?: number
   align?: 'left' | 'right'
