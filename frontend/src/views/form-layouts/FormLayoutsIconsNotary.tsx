@@ -12,34 +12,34 @@ import SignatureFreehand from 'mdi-material-ui/SignatureFreehand'
 import EmailOutline from 'mdi-material-ui/EmailOutline'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 import MessageOutline from 'mdi-material-ui/MessageOutline'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { Web3Context } from 'src/@core/context/web3Context'
-import { Alert, Collapse, FormLabel, IconButton, StepLabel } from '@mui/material'
+import { StepLabel } from '@mui/material'
 import TextPanel from 'src/@core/components/text-panel/textPanel'
 import { textsNewNotary } from 'src/constants/consts'
 
 const FormLayoutsIconsNotary = () => {
-  const { account, smartNotaryContract, isNotaryAdded, setTransactionAlert, setTransactionErrorAlert } = useContext(Web3Context)
+  const { account, smartNotaryContract, isNotaryAdded, setTransactionAlert, setTransactionErrorAlert } =
+    useContext(Web3Context)
   const addNotary = async (): Promise<any> => {
     try {
-      const tx = await smartNotaryContract.addSimpleNotary();
+      const tx = await smartNotaryContract.addSimpleNotary()
 
       setTransactionAlert(true)
-      console.log("transaction:", tx)
+      console.log('transaction:', tx)
+
       return tx
     } catch (error) {
       setTransactionErrorAlert(true)
       console.log(error)
     }
-
   }
-
 
   return (
     <Card>
       <CardHeader title='Notary Info' titleTypographyProps={{ variant: 'h6' }} />
       <CardContent>
-        <TextPanel texts={textsNewNotary} title={"Info"} />
+        <TextPanel texts={textsNewNotary} title={'Info'} />
       </CardContent>
       <CardContent>
         <form onSubmit={e => e.preventDefault()}>
@@ -77,7 +77,7 @@ const FormLayoutsIconsNotary = () => {
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                value={account && account !== "undefined" ? account : ""}
+                value={account && account !== 'undefined' ? account : ''}
                 label='Filecoin address (starting with 0x...)'
                 placeholder='Connect Wallet in order to fill this field'
                 InputProps={{
@@ -108,16 +108,15 @@ const FormLayoutsIconsNotary = () => {
             </Grid>
             <Grid item xs={12}>
               {/* {true ? */}
-              {isNotaryAdded ?
-                <Button type='submit' variant='contained' size='large' >
+              {isNotaryAdded ? (
+                <Button type='submit' variant='contained' size='large'>
                   You're a notary already!
                 </Button>
-                :
+              ) : (
                 <Button type='submit' variant='contained' size='large' onClick={addNotary}>
                   Become a notary
                 </Button>
-
-              }
+              )}
               <StepLabel> You need to have TFIl in your wallet</StepLabel>
             </Grid>
           </Grid>

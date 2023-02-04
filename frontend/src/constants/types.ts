@@ -10,7 +10,7 @@ export type AllPurposeTableProps = {
   method: (address: string) => string | void
   columns?: any
   rowType?: any
-  accepted?:boolean
+  accepted?: boolean
 }
 
 export interface ColumnType {
@@ -25,11 +25,10 @@ export type TextPanelProps = {
   title: string
   texts: string[]
   route?: string
-  indexRoute?: number 
+  indexRoute?: number
 }
- 
 
 export type AlertProps = {
-  type:string
+  type: string
   severity: 'error' | 'warning' | 'info' | 'success'
 }

@@ -5,7 +5,6 @@ import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import Grid, { GridProps } from '@mui/material/Grid'
-import { useEffect, useState } from 'react'
 
 const DemoGrid = styled(Grid)<GridProps>(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
@@ -14,12 +13,13 @@ const DemoGrid = styled(Grid)<GridProps>(({ theme }) => ({
 }))
 
 const RequestDatacapExplaination = () => {
- return ( <Card>
+  return (
+    <Card>
       <CardHeader title='Texts' titleTypographyProps={{ variant: 'h6' }} />
       <CardContent>
         <Grid container spacing={6}>
           <Grid item xs={12} sm={2} sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography>NO  ?</Typography>
+            <Typography>NO ?</Typography>
           </Grid>
           <DemoGrid item xs={12} sm={10}>
             <Typography variant='subtitle1' sx={{ marginBottom: 2 }}>
@@ -91,7 +91,6 @@ const RequestDatacapExplaination = () => {
       </CardContent>
     </Card>
   )
-    
 }
 
 export default RequestDatacapExplaination

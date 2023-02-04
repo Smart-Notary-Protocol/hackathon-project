@@ -1,14 +1,11 @@
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import { Theme } from '@mui/material/styles'
-import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import InputAdornment from '@mui/material/InputAdornment'
 
 // ** Icons Imports
 import Menu from 'mdi-material-ui/Menu'
-import Magnify from 'mdi-material-ui/Magnify'
 
 // ** Type Import
 import { Settings } from 'src/@core/context/settingsContext'
@@ -64,11 +61,9 @@ const AppBarContent = (props: Props) => {
           </Box>
         )}
         <ModeToggler settings={settings} saveSettings={saveSettings} />
-       <Button size='small' variant='contained' onClick={web3.connectAccount}> 
-       {
-        web3.account && web3.account !== "undefined" ?  web3.account  : "Connect Wallet"
-       }
-       </Button>
+        <Button size='small' variant='contained' onClick={web3.connectAccount}>
+          {web3.account && web3.account !== 'undefined' ? web3.account : 'Connect Wallet'}
+        </Button>
       </Box>
     </Box>
   )

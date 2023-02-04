@@ -20,7 +20,7 @@ import ThemeComponent from 'src/@core/theme/ThemeComponent'
 
 // ** Contexts
 import { SettingsConsumer, SettingsProvider } from 'src/@core/context/settingsContext'
-import { Web3Consumer, Web3Context, Web3Provider } from 'src/@core/context/web3Context'
+import { Web3Consumer, Web3Provider } from 'src/@core/context/web3Context'
 
 // ** Utils Imports
 import { createEmotionCache } from 'src/@core/utils/create-emotion-cache'
@@ -63,27 +63,27 @@ const App = (props: ExtendedAppProps) => {
     <CacheProvider value={emotionCache}>
       <Head>
         <title>{`${themeConfig.templateName} Smart Notary Protocol Space Warp 2023 ETHGlobal Hackathon`}</title>
-        <meta
-          name='description'
-          content={``}
-        />
+        <meta name='description' content={``} />
 
         <meta name='viewport' content='initial-scale=1, width=device-width' />
       </Head>
-      <Web3Provider >
+      <Web3Provider>
         <Web3Consumer>
-          {
-            ({ }) => {
-              return <SettingsProvider>
+          {({}) => {
+            return (
+              <SettingsProvider>
                 <SettingsConsumer>
                   {({ settings }) => {
-                    return <ThemeComponent settings={settings}>{getLayout(<Component {...pageProps} />)}</ThemeComponent>
+                    return (
+                      <ThemeComponent settings={settings}>{getLayout(<Component {...pageProps} />)}</ThemeComponent>
+                    )
                   }}
                 </SettingsConsumer>
               </SettingsProvider>
-            }}
+            )
+          }}
         </Web3Consumer>
-      </Web3Provider >
+      </Web3Provider>
     </CacheProvider>
   )
 }

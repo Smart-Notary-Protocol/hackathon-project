@@ -8,7 +8,7 @@ import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
-import { Card, CardHeader, CardContent, Typography } from '@mui/material'
+import { Card, CardContent } from '@mui/material'
 import RequestDatacapExplaination from './RequestDatacapExplaination'
 import { useContext, useEffect, useState } from 'react'
 import { Web3Context } from 'src/@core/context/web3Context'
@@ -19,8 +19,7 @@ import { clientColumns } from 'src/constants/consts'
 const RequestDataCap = () => {
   const { smartNotaryContract, transactionErrorAlert, transactionAlert, fetchClients } = useContext(Web3Context)
   const [clients, setClients] = useState<any[]>()
-  const [address, setAddress] = useState<string>("")
-
+  const [address, setAddress] = useState<string>('')
 
   useEffect(() => {
     getClients()
@@ -33,6 +32,7 @@ const RequestDataCap = () => {
   const selectClient = (address: string) => {
     setAddress(address)
   }
+
   return (
     <DatePickerWrapper>
       <Grid container spacing={6}>
@@ -49,14 +49,12 @@ const RequestDataCap = () => {
           </CardContent>
         </Grid>
       </Grid>
-      {
-        transactionErrorAlert && <AlertComponent type="Seems that you aren't the owner of the Smart Client." severity="warning" />}
-      {
-        transactionAlert && <AlertComponent type="Wait for the transaction till DataCap is refilled." severity="info" />
-      }
+      {transactionErrorAlert && (
+        <AlertComponent type="Seems that you aren't the owner of the Smart Client." severity='warning' />
+      )}
+      {transactionAlert && <AlertComponent type='Wait for the transaction till DataCap is refilled.' severity='info' />}
     </DatePickerWrapper>
   )
 }
 
 export default RequestDataCap
-

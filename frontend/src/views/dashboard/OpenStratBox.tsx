@@ -4,7 +4,7 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import { styled, useTheme } from '@mui/material/styles'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { Web3Context } from 'src/@core/context/web3Context'
 
 // Styled component for the triangle shaped background image
@@ -27,6 +27,7 @@ const OpenStratBox = () => {
   // ** Hook
   const theme = useTheme()
   const web3 = useContext(Web3Context)
+
   // console.log(web3)
   // useEffect(() => { web3.connectAccount() },[])
 
@@ -42,7 +43,7 @@ const OpenStratBox = () => {
         <Typography variant='subtitle1' sx={{ my: 4, color: 'primary.main' }}>
           Select the parameters and open a new rebalancing position
         </Typography>
-        <Button size='small' variant='contained' onClick={web3.connectAccount} >
+        <Button size='small' variant='contained' onClick={web3.connectAccount}>
           Open Strategy
         </Button>
         <TriangleImg alt='triangle background' src={`/images/misc/${imageSrc}`} />

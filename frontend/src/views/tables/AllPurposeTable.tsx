@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, ChangeEvent, useEffect } from 'react'
+import { useState, ChangeEvent } from 'react'
 
 // ** MUI Imports
 import Paper from '@mui/material/Paper'
@@ -11,7 +11,6 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import { AllPurposeTableProps } from 'src/constants/types'
-
 
 const TableStickyHeaderSupportClient = (props?: AllPurposeTableProps) => {
   // ** States
@@ -34,7 +33,7 @@ const TableStickyHeaderSupportClient = (props?: AllPurposeTableProps) => {
         <Table stickyHeader aria-label='sticky table'>
           <TableHead>
             <TableRow>
-              {props?.columns.map((column:any) => (
+              {props?.columns.map((column: any) => (
                 <TableCell key={column.id} align={column.align} sx={{ minWidth: column.minWidth }}>
                   {column.label}
                 </TableCell>
@@ -44,11 +43,17 @@ const TableStickyHeaderSupportClient = (props?: AllPurposeTableProps) => {
           <TableBody>
             {props?.elements.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
               return (
-                <TableRow hover role='checkbox' tabIndex={-1} key={index}
-                  onClick={() => {props.method(row.address) } }
+                <TableRow
+                  hover
+                  role='checkbox'
+                  tabIndex={-1}
+                  key={index}
+                  onClick={() => {
+                    props.method(row.address)
+                  }}
                 >
-                  {props.columns.map((column:any) => {
-                    const value =  row[column.id]
+                  {props.columns.map((column: any) => {
+                    const value = row[column.id]
 
                     return (
                       <TableCell key={column.id} align={column.align}>

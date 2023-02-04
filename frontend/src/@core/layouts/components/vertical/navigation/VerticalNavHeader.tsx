@@ -49,11 +49,11 @@ const StyledLink = styled('a')({
 
 const VerticalNavHeader = (props: Props) => {
   console.log()
+
   // ** Props
   const { verticalNavMenuBranding: userVerticalNavMenuBranding } = props
 
   // ** Hooks
-  const theme = useTheme()
 
   return (
     <MenuHeaderWrapper className='nav-header' sx={{ pl: 6 }}>
@@ -62,7 +62,7 @@ const VerticalNavHeader = (props: Props) => {
       ) : (
         <Link href='/' passHref>
           <StyledLink>
-            <img src="/images/cap.png" alt="My Image" style={{ width: '50px', height: '50px' }}/>
+            <img src='/images/cap.png' alt='My Image' style={{ width: '50px', height: '50px' }} />
             <HeaderTitle variant='subtitle1' sx={{ ml: 3 }}>
               {themeConfig.templateName}
             </HeaderTitle>

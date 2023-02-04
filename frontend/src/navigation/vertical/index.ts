@@ -1,9 +1,18 @@
 // ** Icon imports
-import { HomeOutline,CubeOutline, AccountPlusOutline,GoogleCirclesExtended,HandPointingLeft , Connection, CheckCircle, Database, Ruler} from 'mdi-material-ui'
+import {
+  HomeOutline,
+  CubeOutline,
+  AccountPlusOutline,
+  GoogleCirclesExtended,
+  HandPointingLeft,
+  Connection,
+  CheckCircle,
+  Database,
+  Ruler
+} from 'mdi-material-ui'
 
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
-import themeConfig from 'src/configs/themeConfig'
 
 const navigation = (): VerticalNavItemsType => {
   return [
@@ -13,37 +22,37 @@ const navigation = (): VerticalNavItemsType => {
     {
       title: 'Home',
       icon: HomeOutline,
-      path: '/',
+      path: '/'
     },
     {
       title: 'Become a notary',
       icon: AccountPlusOutline,
-      path: '/new-notary',
+      path: '/new-notary'
     },
     {
       title: 'Present New Client',
       icon: HandPointingLeft,
-      path: '/new-client',
+      path: '/new-client'
     },
     {
       title: 'Support Client',
       icon: Connection,
-      path: '/support-client',
+      path: '/support-client'
     },
     {
       title: 'Accept Client',
       icon: CheckCircle,
-      path: '/accept-client',
+      path: '/accept-client'
     },
-     {
+    {
       title: 'Request DataCap',
       icon: Database,
-      path: '/request-dataCap',
+      path: '/request-dataCap'
     },
-     {
+    {
       title: 'Community Rules',
       icon: Ruler,
-      path: '/rules',
+      path: '/rules'
     },
     {
       sectionTitle: 'Space Warp Sponsors'
@@ -51,23 +60,22 @@ const navigation = (): VerticalNavItemsType => {
     {
       title: 'Huddle01',
       icon: CubeOutline,
-      path: '/huddle01',
-
+      path: '/huddle01'
     },
     {
       title: 'LightHouse',
       icon: GoogleCirclesExtended,
-      path: '/lighthouse',
+      path: '/lighthouse'
     },
     {
       title: 'Push Protocol',
       icon: GoogleCirclesExtended,
-      path: '/push',
+      path: '/push'
     },
-     {
+    {
       title: 'Spheron',
       icon: GoogleCirclesExtended,
-      path: '/spheron',
+      path: '/spheron'
     }
   ]
 }
