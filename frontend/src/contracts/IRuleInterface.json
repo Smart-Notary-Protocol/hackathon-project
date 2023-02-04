@@ -1,0 +1,46 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_smartClient",
+				"type": "address"
+			}
+		],
+		"name": "checkRule",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "bool",
+						"name": "respected",
+						"type": "bool"
+					},
+					{
+						"internalType": "string",
+						"name": "reason",
+						"type": "string"
+					}
+				],
+				"internalType": "struct RuleResult",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getName",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]

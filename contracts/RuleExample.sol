@@ -9,9 +9,9 @@ contract RuleExample is IRuleInterface {
     string public name;
     address public smartNotary;
 
-    constructor(string memory _name) {
+    constructor(string memory _name, address _smartNotary) {
         name = _name;
-        smartNotary = msg.sender;
+        smartNotary = _smartNotary;
     }
 
     function checkRule(address _smartClient) external view override returns (RuleResult memory) {
