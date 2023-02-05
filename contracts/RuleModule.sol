@@ -6,8 +6,8 @@ import "./structs/Structs.sol";
 import "./RuleExample.sol";
 
 contract RuleModule {
-    mapping(uint256 => address) private rules;
-    uint256 private ruleCount;
+    mapping(uint256 => address) public rules;
+    uint256 public ruleCount;
     address public smartNotary;
 
     constructor(address _smartNotary) {
@@ -20,7 +20,7 @@ contract RuleModule {
     }
 
     function getAllRules() public view returns (address[] memory) {
-        address[] memory list;
+        address[] memory list = new address[](ruleCount);
         for (uint256 i = 0; i < ruleCount; i++) {
             list[i] = rules[i];
         }

@@ -5,4 +5,5 @@ import "../structs/Structs.sol";
 
 interface IRuleInterface {
     function checkRule(address _smartClient) external returns (RuleResult memory);
+    function getName() external returns (string memory name);
 }

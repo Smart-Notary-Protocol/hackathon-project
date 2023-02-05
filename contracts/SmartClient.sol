@@ -8,7 +8,7 @@ import "./structs/Structs.sol";
 
 contract SmartClient {
     //TODO review visibility
-    bytes public name;
+    string public name;
     address payable private smartNotary; // the SmartNotary contract who initialized this Client
     address payable[] public notaries; // list of notaries who accepted this client. can be setted only at contract initialization
     address public clientOwner; // the address of the owner of this contract
@@ -20,15 +20,15 @@ contract SmartClient {
     uint256 private datacapFee = 1000000000000000000; // 10^18 wei 
 
 
-    event RefillAsked(uint256 amount);
-    event DealInitialized(uint256 amount);
-    event DealDenied(bytes reason);
+    
+    // event DealInitialized(uint256 amount);
+    // event DealDenied(bytes reason);
 
     constructor(
         BigInt memory _totalAllowanceRequested,
         address _clientOwner,
         address _smartNotary,
-        bytes memory _name
+        string memory _name
     ) {
         clientOwner = _clientOwner;
         totalAllowanceRequested = _totalAllowanceRequested;
@@ -54,15 +54,15 @@ contract SmartClient {
     }
 
 
-    function getBalance() public returns (BigInt memory balance) {
-        return _getBalance();
-    }
+    // function getBalance() public returns (BigInt memory balance) {
+    //     return _getBalance();
+    // }
 
-    function _getBalance() internal returns (BigInt memory balance) {
-        bytes memory addr = abi.encodePacked(address(this));
-        balance = DataCapAPI.balance(addr);
-        return balance;
-    }
+    // function _getBalance() internal returns (BigInt memory balance) {
+    //     bytes memory addr = abi.encodePacked(address(this));
+    //     balance = DataCapAPI.balance(addr);
+    //     return balance;
+    // }
 
     // this function is needed to claim the datacap (invoked by the owner or notaries)
     // at the end set isDataCapClaimable to false
@@ -88,7 +88,6 @@ contract SmartClient {
         for (uint256 i = 0; i < notaries.length; i++) {
             notaries[i].transfer(feeForEachNotary);
         }
-        return true;
     }
 
     function convert(bytes20 _0xAddress)
@@ -96,47 +95,10 @@ contract SmartClient {
         pure
         returns (bytes memory f4Address)
     {
-        // Filecoin prefix for F4 address
-        // bytes memory prefix = bytes("0xf1");
 
-        // Concatenate prefix with 0x address
-        // f4Address = new bytes(24);
-
-        // assembly {
-        //     mstore(add(f4Address, 4), prefix)
-        //     mstore(add(f4Address, 8), _0xAddress)
-        // }
-        // return f4Address;
     }
 
     function makeDeal(BigInt memory _requestedAmount) public {
-        // require(
-        //     msg.sender == clientOwner,
-        //     "Only the client owner can invoke this method."
-        // );
-        // uint256 currentBalance = abi.decode(getBalance().val, (uint256));
-        // uint256 dcAmount = abi.decode(totalAllowanceRequested.val, (uint256));
-        // uint256 dataCapTh = abi.decode(dataCapThreshold.val, (uint256));
-        // uint256 requestedAmount = abi.decode(_requestedAmount.val, (uint256));
-        // // if (currentBalance < (dcAmount * dataCapTh) / 100) {
-        // //     _askRefill();
-        // // }
-        // if (currentBalance > requestedAmount) {
-        //     //IDEA 💡 the client can hold a list of SP who is using, when making deals
-        //     // maybe can put a mock value
-        //     // execute deal
-        //     currentBalance -= requestedAmount;
-        //     emit DealInitialized(requestedAmount);
-        //     //decrease dataCap
-        //     DataCapAPI.burnFrom(
-        //         DataCapTypes.BurnFromParams({
-        //             owner: abi.encodePacked(address(this)),
-        //             amount: _requestedAmount
-        //         })
-        //     );
-        // } else {
-        //     bytes memory reason = "Amount requested is too high.";
-        //     emit DealDenied(reason);
-        // }
+      
     }
 }

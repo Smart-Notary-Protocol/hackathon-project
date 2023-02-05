@@ -6,8 +6,8 @@ import "./SmartNotary.sol";
 
 //example rule: the Smart Client should be accepted
 contract RuleExample is IRuleInterface {
-    string public name;
-    address public smartNotary;
+    string private name;
+    address private smartNotary;
 
     constructor(string memory _name, address _smartNotary) {
         name = _name;
@@ -19,5 +19,9 @@ contract RuleExample is IRuleInterface {
         bool isAccepted = sm.isSmartClientAccepted(_smartClient);
         RuleResult memory res = RuleResult({respected: isAccepted, reason: "test"});
         return res;
+    }
+
+    function getName() external view override returns (string memory){
+        return name;
     }
 }

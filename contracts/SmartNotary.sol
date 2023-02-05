@@ -24,15 +24,16 @@ contract SmartNotary {
     address public ruleModule;
     address public dataCapToken;
 
-    uint256 public totalValueStaked;
-    //uint256 public stakingFee = 1000000000000000000; // 1 FIL
+    uint256 private totalValueStaked;
 
-    event NewSmartClientCreated(
-        address indexed _client,
-        bytes _name,
-        BigInt _fullDcAmount
+    event NotaryAdded(address indexed _notary);
+    event TestEvent(address indexed addr);
+    event Staked(
+        address indexed notary,
+        address indexed smartClient,
+        uint256 nOfNotaries
     );
-    event Staked(address indexed notary, address indexed smartClient, uint256 nOfNotaries);
+    event DataCapAllocated(address indexed _smartClient, uint256 amount);
 
     constructor() {
         owner = payable(msg.sender);
@@ -43,10 +44,14 @@ contract SmartNotary {
         dataCapToken = address(dtc);
     }
 
+    function emitTestEvent() public {
+        emit TestEvent(msg.sender);
+    }
+
     function updateRuleModule(address _ruleModule) public {
-         require(msg.sender == owner);
-         ruleModule = _ruleModule;
-     }
+        require(msg.sender == owner);
+        ruleModule = _ruleModule;
+    }
 
     function getOwner() public view returns (address payable) {
         return owner;
@@ -56,7 +61,11 @@ contract SmartNotary {
         return smartClients;
     }
 
-    function isSmartClientAccepted(address _smartClient) public view returns (bool){
+    function isSmartClientAccepted(address _smartClient)
+        public
+        view
+        returns (bool)
+    {
         return acceptedClients[_smartClient];
     }
 
@@ -69,20 +78,20 @@ contract SmartNotary {
         );
         // idea 💡 here can be added some logic to accept or not the notary
         simpleNotaries[address(msg.sender)] = true;
+        emit NotaryAdded(address(msg.sender));
     }
-
 
     // allows notaries to present new clients to the protocol
     function createSmartClient(
         address _clientOwner,
-        bytes memory _name,
+        string memory _name,
         BigInt memory _fullDcAmount
     ) public payable {
         require(msg.value >= 1, "required 1 wei");
         require(simpleNotaries[address(msg.sender)], "Only Notaries");
-         require(
-        !clientOwnerHasSmartClients[_clientOwner],
-           "Client Already Proposed"
+        require(
+            !clientOwnerHasSmartClients[_clientOwner],
+            "Client Already Proposed"
         );
 
         //create client
@@ -102,10 +111,7 @@ contract SmartNotary {
         totalValueStaked += msg.value;
         payable(address(this)).transfer(msg.value);
 
-
-
         //add the client to this contract
-
         emit Staked(msg.sender, address(smartClient), 1);
     }
 
@@ -119,20 +125,19 @@ contract SmartNotary {
         );
         //TODO CHECK that the notary didnt staked on this
         SmartClient smartClient = SmartClient(_smartClient);
-        bool  isNotaryAlreadyStaking  = smartClient.isNotaryStakingHere(msg.sender);
+        bool isNotaryAlreadyStaking = smartClient.isNotaryStakingHere(
+            msg.sender
+        );
         require(!isNotaryAlreadyStaking, "Notary already staked");
 
-
-
         smartClient.addNotary(payable(msg.sender));
-
 
         notariesToStakes[msg.sender] += msg.value;
         totalValueStaked += msg.value;
         payable(address(this)).transfer(msg.value);
 
         uint256 nOfNotaries = smartClient.getnotaries().length;
-        
+
         emit Staked(msg.sender, _smartClient, nOfNotaries);
     }
 
@@ -146,25 +151,29 @@ contract SmartNotary {
         // grantDatacap
         SmartClient smartClient = SmartClient(address(_smartClient));
         BigInt memory totDcRequested = smartClient.getTotalAllowanceRequested();
-        grantDataCap(_smartClient, 10, totDcRequested);
+        grantDataCap(_smartClient, 100, totDcRequested);
+        emit DataCapAllocated(msg.sender, 100);
     }
 
     // grant datacap to SmartClients when they need it
-    function grantDataCap(address _smartClient, uint256 _value, BigInt memory _dataCap)
-        public
-    {
-         DataCapToken dc = DataCapToken(dataCapToken);
-         dc.mint(_smartClient,_value);
+    function grantDataCap(
+        address _smartClient,
+        uint256 _value,
+        BigInt memory _dataCap
+    ) public {
+        DataCapToken dc = DataCapToken(dataCapToken);
+        dc.mint(_smartClient, _value);
     }
 
     // this function grants datacap to client and pay fees to protocol and notaries
     function refillDatacap(BigInt memory _dataCap) public {
         require(acceptedClients[msg.sender], "Only Smart Client");
-        grantDataCap(msg.sender, 10, _dataCap);
+        grantDataCap(msg.sender, 100, _dataCap);
+        emit DataCapAllocated(msg.sender, 100);
     }
 
     //for now just check if the smart Client is accepted
-    function checkRefill() public returns  (RuleResult memory) {
+    function checkRefill() public returns (RuleResult memory) {
         RuleModule rm = RuleModule(ruleModule);
         return rm.checkAllRules(msg.sender);
     }
