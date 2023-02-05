@@ -1,9 +1,7 @@
 // ** Icon imports
 import {
   HomeOutline,
-  Bell,
   AccountPlusOutline,
-  GoogleCirclesExtended,
   HandPointingLeft,
   Connection,
   CheckCircle,
@@ -11,6 +9,7 @@ import {
   Ruler,
   BookAlert
 } from 'mdi-material-ui'
+import SpheronIcon from "src/@core/components/SpheronIcon"
 
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
@@ -59,13 +58,8 @@ const navigation = (): VerticalNavItemsType => {
       sectionTitle: 'Space Warp Sponsors'
     },
     {
-      title: 'Push Protocol',
-      icon: Bell,
-      path: '/push'
-    },
-    {
       title: 'Spheron',
-      icon: GoogleCirclesExtended,
+      icon: SpheronIcon,
       path: '/spheron'
     },  
     {

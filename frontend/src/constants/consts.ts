@@ -55,7 +55,7 @@ export const rulesColumns: readonly ColumnType[] = [
 ]
 
 export const clientColumns: readonly ColumnType[] = [
-  { id: 'name', label: 'Name', minWidth: 170 },
+  { id: 'name', label: 'Name', minWidth: 80 },
   {
     id: 'address',
     label: 'Address',
@@ -66,30 +66,30 @@ export const clientColumns: readonly ColumnType[] = [
   {
     id: 'dataCap',
     label: 'DataCap',
-    minWidth: 170,
+    minWidth: 140,
     align: 'left',
     format: (value: number) => value.toLocaleString('en-US')
   },
   {
     id: 'stake',
-    label: 'Stake Necessary',
-    minWidth: 170,
+    label: 'Stake',
+    minWidth: 140,
     align: 'left',
     format: (value: number) => value.toFixed(2)
   },
   {
     id: 'status',
     label: 'Status',
-    minWidth: 170,
+    minWidth: 140,
     align: 'left',
     format: (value: number) => value.toFixed(2)
   },
   {
     id: 'nNotaries',
     label: '# Supporting Notaries',
-    minWidth: 170,
+    minWidth: 100,
     align: 'left',
-    format: (value: number) => value.toFixed(0)
+    format: (value: number) => value.toFixed(0),
   }
 ]
 
@@ -120,4 +120,10 @@ export const textsNewClient = [
   'In order to get accepted to the protocol, a client should be presented by a Notary.',
   'The Notary need to stake 0.1 TFIL as a warrantee to present the client to the protocol.',
   'Once the client is created, the Smart Notary will create an actor called Smart Client, which behave on behalf of the owner, get DataCap and will be used to make deals.'
+]
+
+export const textsSpheron = [
+  'smart-notary-protocol.com uses Spheron do manage deployments and implements CD/CI mechanisms.',
+  "Thank you Spheron, the protocol works very well and it allowed me to deploy in minutes.",
+  "For more info, please visit https://spheron.network/"
 ]

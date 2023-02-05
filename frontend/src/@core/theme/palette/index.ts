@@ -10,9 +10,9 @@ const DefaultPalette = (mode: PaletteMode, themeColor: ThemeColor) => {
 
   const primaryGradient = () => {
     if (themeColor === 'primary') {
-      return '#2600ff'
+      return '#222831'
     } else if (themeColor === 'secondary') {
-      return '#2600ff'
+      return 'green'
     } else if (themeColor === 'success') {
       return '#2600ff'
     } else if (themeColor === 'error') {
@@ -28,7 +28,7 @@ const DefaultPalette = (mode: PaletteMode, themeColor: ThemeColor) => {
     customColors: {
       main: mainColor,
       primaryGradient: primaryGradient(),
-      tableHeaderBg: mode === 'light' ? '#ffff' : '#3D3759'
+      tableHeaderBg: mode === 'light' ? '#ffff' : '#2F2F2F'
     },
     common: {
       black: '#000',
