@@ -21,7 +21,7 @@ const FormLayoutsIconsRequestDataCap = () => {
   const [address, setAddress] = useState<string>('')
 
   // const createClient = async (): Promise<any> => {
-  const requestDataCap = async (): Promise<any> => {
+  const checkDataCap = async (): Promise<any> => {
     try {
       // smart client address 0x5aa4552021cC724A6A620921137894680A2F268E
       const abi = smartClientAbi.abi
@@ -63,7 +63,7 @@ const FormLayoutsIconsRequestDataCap = () => {
               />
             </Grid>
             <Grid item xs={12}>
-              <Button type='submit' variant='contained' size='large' onClick={requestDataCap}>
+              <Button type='submit' variant='contained' size='large' onClick={checkDataCap}>
                 Request More DataCap
               </Button>
 

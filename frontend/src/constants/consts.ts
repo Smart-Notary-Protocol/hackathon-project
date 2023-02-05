@@ -1,7 +1,8 @@
 import { ethers } from 'ethers'
 import { ColumnType } from './types'
 
-export const SMART_NOTARY_ADDRESS = '0x9FF86B6A10000EF132d4316466F32A2374d43343'
+export const SMART_NOTARY_ADDRESS = '0xD7428fB6D73C26c8180B0C3aA58d858C7C347802'
+export const DATACAP_TOKEN_ADDRESS = '0x0891c5E9A580397F8D4278778D93ff0d6A17d99D'
 export const DATACAP_FEE = ethers.utils.parseEther('1.0')
 
 export const boxArray = [
@@ -65,29 +66,36 @@ export const clientColumns: readonly ColumnType[] = [
   },
   {
     id: 'dataCap',
-    label: 'DataCap',
-    minWidth: 140,
+    label: 'DataCap Requested',
+    minWidth: 120,
     align: 'left',
     format: (value: number) => value.toLocaleString('en-US')
   },
   {
+    id: 'dataCapBalance',
+    label: 'DataCap Balance',
+    minWidth: 90,
+    align: 'left',
+    format: (value: number) => value.toFixed(0),
+  },
+  {
     id: 'stake',
     label: 'Stake',
-    minWidth: 140,
+    minWidth: 120,
     align: 'left',
     format: (value: number) => value.toFixed(2)
   },
   {
     id: 'status',
     label: 'Status',
-    minWidth: 140,
+    minWidth: 120,
     align: 'left',
     format: (value: number) => value.toFixed(2)
   },
   {
     id: 'nNotaries',
     label: '# Supporting Notaries',
-    minWidth: 100,
+    minWidth: 90,
     align: 'left',
     format: (value: number) => value.toFixed(0),
   }
@@ -114,6 +122,7 @@ export const textsAcceptClient = [
 export const textsRequestDataCap = [
   'If you are the owner of an accepted Smart Client and you got the first round of DataCap, you can claim other tokens pressing this button.',
   'In order to do so, you need to pay a standard fee of 1TFIL. 95% of it is splitted between the notaries staking on this client and the rest will go to the protocol.',
+  'Bear in mind that the request will trigger the Smart Notary contract to check a Rule Module (smart contract). If the client is compliant with all the rules of the module, then the DataCap is allocated.',
   'Click here to have a look to the community rules to get more datacap'
 ]
 export const textsNewClient = [

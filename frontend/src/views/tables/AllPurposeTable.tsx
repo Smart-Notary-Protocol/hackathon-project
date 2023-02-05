@@ -49,7 +49,7 @@ const TableStickyHeaderSupportClient = (props?: AllPurposeTableProps) => {
                   tabIndex={-1}
                   key={index}
                   onClick={() => {
-                    props.method(row.address)
+                    props.method(row.address, row.dataCap)
                   }}
                 >
                   {props.columns.map((column: any) => {

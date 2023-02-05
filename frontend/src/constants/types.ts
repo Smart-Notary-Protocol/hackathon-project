@@ -7,14 +7,14 @@ export type ClicableBoxProps = {
 
 export type AllPurposeTableProps = {
   elements: any[]
-  method: (address: string) => string | void
+  method: (address: string, dataCap:string) => string | void
   columns?: any
   rowType?: any
   accepted?: boolean
 }
 
 export interface ColumnType {
-  id: 'name' | 'address' | 'dataCap' | 'stake' | 'explaination' | 'status' | 'nNotaries'
+  id: 'name' | 'address' | 'dataCap' | 'stake' | 'explaination' | 'status' | 'nNotaries' | 'dataCapBalance'
   label: string
   minWidth?: number
   align?: 'left' | 'right'

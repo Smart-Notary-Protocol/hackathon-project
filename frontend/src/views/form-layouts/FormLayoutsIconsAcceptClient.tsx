@@ -26,13 +26,15 @@ const FormLayoutsIconsAcceptClient = () => {
   }, [smartNotaryContract])
 
   const getClients = async () => {
-    const cls = (await fetchClients()).filter((c: any) => c.status !== 'accepted')
+    const cls = (await fetchClients())?.filter((c: any) => c.status !== 'accepted')
     setClients(cls)
   }
 
-  const selectClient = (address: string) => {
+  const selectClient = (address: string, dataCap: string) => {
     setAddress(address)
   }
+
+
 
   // const createClient = async (): Promise<any> => {
   const AcceptClient = async (): Promise<any> => {

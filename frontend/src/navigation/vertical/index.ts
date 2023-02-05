@@ -7,9 +7,9 @@ import {
   CheckCircle,
   Database,
   Ruler,
-  BookAlert
+  BookAlert,
 } from 'mdi-material-ui'
-import SpheronIcon from "src/@core/components/SpheronIcon"
+import SpheronIcon from "src/@core/components/icons/SpheronIcon"
 
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
@@ -68,7 +68,9 @@ const navigation = (): VerticalNavItemsType => {
     {
       title: 'README',
       icon: BookAlert,
-      path: '/readme'
+      path: 'https://github.com/fabriziogianni7/FVM-Smart-Notary#readme',
+      externalLink: true,
+      openInNewTab: true
     },
   ]
 }

@@ -2,7 +2,8 @@ import { createContext, useState, ReactNode, useEffect } from 'react'
 import { ethers } from 'ethers'
 import smartNotaryAbi from '../../contracts/SmartNotaryAbi.json'
 import smartClientAbi from '../../contracts/SmartClient.json'
-import { SMART_NOTARY_ADDRESS } from 'src/constants/consts'
+import dataCapTokenAbi from '../../contracts/DataCapTokenAbi.json'
+import { DATACAP_TOKEN_ADDRESS, SMART_NOTARY_ADDRESS } from 'src/constants/consts'
 import { hexToString } from '../utils/encoding-utils'
 
 // ** Create Context
@@ -93,6 +94,8 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
 
   const fetchClients = async () => {
     if (smartNotaryContract) {
+      const dataCapTokenContract = new ethers.Contract(DATACAP_TOKEN_ADDRESS,dataCapTokenAbi, provider)
+
       const clientAddresses = await smartNotaryContract.getSmartClients()
 
       // console.log("clientAddresses", clientAddresses)
@@ -109,11 +112,13 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
                   const name = hexToString(hexName)
                   const address = cl.address
                   const hexDataCap = (await cl.getTotalAllowanceRequested()).val
-                  const dataCap = `${hexToString(hexDataCap)}TiB`
-                  const notaries = await cl.getnotaries()
-                  console.log("notaries",notaries)
+                  const dataCapRequested = `${hexToString(hexDataCap)}TiB`
+                  const dataCapBalanceHex = (await dataCapTokenContract.balanceOf(address))._hex
+                  const dataCapBalance = `${parseInt(dataCapBalanceHex, 16)}TiB`
 
-                  resolve({ name, address, dataCap, stake: '1 TFIL', status: isAccepted ? 'accepted' : 'pending', nNotaries:notaries.length })
+                  const notaries = await cl.getnotaries()
+
+                  resolve({ name, address, dataCap: dataCapRequested, stake: '1 TFIL', status: isAccepted ? 'accepted' : 'pending', nNotaries:notaries.length, dataCapBalance })
                 } catch (error) {
                   reject(error)
                 }
@@ -129,7 +134,7 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
 
   const smartNotaryEvents = () => {
     if (smartNotaryContract) {
-      console.log('should be initialized')
+      // console.log('should be initialized')
       smartNotaryContract.on('NotaryAdded', (eve: any) => {
         if (eve === account) {
           console.log('NotaryAdded event emitted', eve)

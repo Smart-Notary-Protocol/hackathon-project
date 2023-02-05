@@ -39,7 +39,7 @@ const FormLayoutsIconsSupportClient = () => {
   // const createClient = async (): Promise<any> => {
   const supportClient = async (): Promise<any> => {
     try {
-      const options = { value: ethers.utils.parseEther('0.1') }
+      const options = { value: ethers.utils.parseEther('1') }
       const transaction = await smartNotaryContract.supportSmartCLient(address, options)
       setTransactionAlert(true)
 

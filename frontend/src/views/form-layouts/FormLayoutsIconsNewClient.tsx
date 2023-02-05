@@ -28,7 +28,7 @@ const FormLayoutsIconsNewClient = () => {
   const createClient = async (): Promise<any> => {
     try {
       const d = encodeTuple(dataCap)
-      const options = { value: ethers.utils.parseEther('0.1') }
+      const options = { value: ethers.utils.parseEther('1') }
       const transaction = await smartNotaryContract.createSmartClient(address, name, d, options)
 
       // const transaction = await smartNotaryContract.emitTestEvent()

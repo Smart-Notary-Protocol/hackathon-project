@@ -102,6 +102,44 @@
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"components": [
+					{
+						"internalType": "bytes",
+						"name": "val",
+						"type": "bytes"
+					},
+					{
+						"internalType": "bool",
+						"name": "neg",
+						"type": "bool"
+					}
+				],
+				"internalType": "struct BigInt",
+				"name": "_dataCap",
+				"type": "tuple"
+			}
+		],
+		"name": "refillDatacap",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_smartClient",
+				"type": "address"
+			}
+		],
+		"name": "supportSmartCLient",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
@@ -159,31 +197,6 @@
 		"type": "event"
 	},
 	{
-		"inputs": [
-			{
-				"components": [
-					{
-						"internalType": "bytes",
-						"name": "val",
-						"type": "bytes"
-					},
-					{
-						"internalType": "bool",
-						"name": "neg",
-						"type": "bool"
-					}
-				],
-				"internalType": "struct BigInt",
-				"name": "_dataCap",
-				"type": "tuple"
-			}
-		],
-		"name": "refillDatacap",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -207,19 +220,6 @@
 		],
 		"name": "Staked",
 		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_smartClient",
-				"type": "address"
-			}
-		],
-		"name": "supportSmartCLient",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -287,6 +287,19 @@
 				"internalType": "bool",
 				"name": "",
 				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "dataCapToken",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",

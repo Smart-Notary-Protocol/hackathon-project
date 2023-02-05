@@ -53,11 +53,7 @@ const AppBarContent = (props: Props) => {
             sx={{ mr: 4, display: 'flex' }}
             href='https://github.com/fabriziogianni7/FVM-Smart-Notary'
           >
-            <img
-              height={24}
-              alt='github stars'
-              src='https://img.shields.io/github/stars/themeselection/materio-mui-react-nextjs-admin-template-free?style=social'
-            />
+            
           </Box>
         )}
         <ModeToggler settings={settings} saveSettings={saveSettings} />
