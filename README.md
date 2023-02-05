@@ -25,6 +25,6 @@ Smart-Notary contract: coming soon
 
 Smart-Client contract: coming soon
 
-  
-
+## Flow Diagram
+![Schermata 2023-02-05 alle 15 09 15](https://user-images.githubusercontent.com/46995085/216824406-1c0758cd-1fff-4179-a63d-bd574fa8fdcb.png)
 
