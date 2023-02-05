@@ -68,7 +68,7 @@ const navigation = (): VerticalNavItemsType => {
     {
       title: 'README',
       icon: BookAlert,
-      path: 'https://github.com/fabriziogianni7/FVM-Smart-Notary#readme',
+      path: 'https://github.com/fabriziogianni7/Smart-Notary-Protocol#readme',
       externalLink: true,
       openInNewTab: true
     },
